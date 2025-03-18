@@ -1,0 +1,341 @@
+user@cec:~$ sudo mysql -u root
+[sudo] password for user: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.42-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database company;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use company;
+Database changed
+mysql> create table location(location_id int primary key,reg_grp varchar(20));
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> create table department(department_id int primary key,name varchar(50),location_id int );
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> create table job(job_id int primary key,function varchar(30));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> create table employee(Emp_id int peimary key,lname varchar(50),fname varchar(50),mname varchar(50),job_id int,manager_id int ,hiredate date,salary int,dep_id int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'peimary key,lname varchar(50),fname varchar(50),mname varchar(50),job_id int,man' at line 1
+mysql> create table employee(Emp_id int peimary key,lname varchar(50),fname varchar(50),mname varchar(50),job_id int,manager_id int ,hiredate date,salary int,dep_id int));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'peimary key,lname varchar(50),fname varchar(50),mname varchar(50),job_id int,man' at line 1
+mysql> create table employee(Emp_id int primary key,lname varchar(50),fname varchar(50),mname varchar(50),job_id int,manager_id int ,hiredate date,salary int,dep_id int);
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> create table loan(Emp_id int primary key,fname varchar(50),loan_amount int);
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> insert into location(location_id,reg_grp)values(1,'new york'),(2,'california'),(3,'texas');
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into department(dep_id,name,location_id)values(10,'sales',1),(20,'HR',2),(30,'IT',3),(40,'accounting',1);
+ERROR 1054 (42S22): Unknown column 'dep_id' in 'field list'
+mysql> insert into department(department_id,name,location_id)values(10,'sales',1),(20,'HR',2),(30,'IT',3),(40,'accounting',1);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into job(job_id,function)values((1,'manager'),(2,'clerk'),(3,'sales representative'),(4,'software engineer');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> insert into job(job_id,function)values((1,'manager'),(2,'clerk'),(3,'sales representative'),(4,'software engineer'));
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into job(job_id,function)values(1,'manager'),(2,'clerk'),(3,'sales representative'),(4,'software engineer');
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into employee(Emp_id,lanme,fname,mname,job_id,manager_id,hiredate,salary,dep_id)values(101,'Smith','john','A',1,NULL,'1985-06-15',80000,10),(102,'Doe','jane','B',3,101,'1990-09-20',60000,10),(103,'Brown','mike','C',2,102,'1985-12-01',45000,20),(104,'Taylor','alice','D',4,101,'2000-07-25',75000,30),(105,'Anderson','bob','E',2,103,'2010-03-17',42000,40),(106,'White','emma','F',3,101,'2015-05-22',62000,10);
+ERROR 1054 (42S22): Unknown column 'lanme' in 'field list'
+mysql> insert into employee(Emp_id,lname,fname,mname,job_id,manager_id,hiredate,salary,dep_id)values(101,'Smith','john','A',1,NULL,'1985-06-15',80000,10),(102,'Doe','jane','B',3,101,'1990-09-20',60000,10),(103,'Brown','mike','C',2,102,'1985-12-01',45000,20),(104,'Taylor','alice','D',4,101,'2000-07-25',75000,30),(105,'Anderson','bob','E',2,103,'2010-03-17',42000,40),(106,'White','emma','F',3,101,'2015-05-22',62000,10);
+Query OK, 6 rows affected (0.03 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> insert into loan(Emp_id,fname,loan_amount)values(101,'john',5000),(103,'mike',3000),(106,'emma',4000);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from location;
++-------------+------------+
+| location_id | reg_grp    |
++-------------+------------+
+|           1 | new york   |
+|           2 | california |
+|           3 | texas      |
++-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from department;
++---------------+------------+-------------+
+| department_id | name       | location_id |
++---------------+------------+-------------+
+|            10 | sales      |           1 |
+|            20 | HR         |           2 |
+|            30 | IT         |           3 |
+|            40 | accounting |           1 |
++---------------+------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from job;
++--------+----------------------+
+| job_id | function             |
++--------+----------------------+
+|      1 | manager              |
+|      2 | clerk                |
+|      3 | sales representative |
+|      4 | software engineer    |
++--------+----------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+-------+-------+--------+------------+------------+--------+--------+
+| Emp_id | lname    | fname | mname | job_id | manager_id | hiredate   | salary | dep_id |
++--------+----------+-------+-------+--------+------------+------------+--------+--------+
+|    101 | Smith    | john  | A     |      1 |       NULL | 1985-06-15 |  80000 |     10 |
+|    102 | Doe      | jane  | B     |      3 |        101 | 1990-09-20 |  60000 |     10 |
+|    103 | Brown    | mike  | C     |      2 |        102 | 1985-12-01 |  45000 |     20 |
+|    104 | Taylor   | alice | D     |      4 |        101 | 2000-07-25 |  75000 |     30 |
+|    105 | Anderson | bob   | E     |      2 |        103 | 2010-03-17 |  42000 |     40 |
+|    106 | White    | emma  | F     |      3 |        101 | 2015-05-22 |  62000 |     10 |
++--------+----------+-------+-------+--------+------------+------------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from loan;
++--------+-------+-------------+
+| Emp_id | fname | loan_amount |
++--------+-------+-------------+
+|    101 | john  |        5000 |
+|    103 | mike  |        3000 |
+|    106 | emma  |        4000 |
++--------+-------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select E.Emp_id,E.lname.E.fname,L.loan_amount from employee E inner join loan L on E.Emp_id=L.Emp_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.fname,L.loan_amount from employee E inner join loan L on E.Emp_id=L.Emp_id' at line 1
+mysql> select E.Emp_id,E.lname,E.fname,L.loan_amount from employee E inner join loan L on E.Emp_id=L.Emp_id;
++--------+-------+-------+-------------+
+| Emp_id | lname | fname | loan_amount |
++--------+-------+-------+-------------+
+|    101 | Smith | john  |        5000 |
+|    103 | Brown | mike  |        3000 |
+|    106 | White | emma  |        4000 |
++--------+-------+-------+-------------+
+3 rows in set (0.01 sec)
+
+mysql> select E.Emp_id,E.lname,E.fname,L.loan_amount from employee E left join loan L on E.Emp_id=L.Emp_id;
++--------+----------+-------+-------------+
+| Emp_id | lname    | fname | loan_amount |
++--------+----------+-------+-------------+
+|    101 | Smith    | john  |        5000 |
+|    103 | Brown    | mike  |        3000 |
+|    106 | White    | emma  |        4000 |
+|    102 | Doe      | jane  |        NULL |
+|    104 | Taylor   | alice |        NULL |
+|    105 | Anderson | bob   |        NULL |
++--------+----------+-------+-------------+
+6 rows in set (0.01 sec)
+
+mysql> select E.Emp_id,E.lname,E.fname,L.loan_amount from employee E right join loan L on E.Emp_id=L.Emp_id;
++--------+-------+-------+-------------+
+| Emp_id | lname | fname | loan_amount |
++--------+-------+-------+-------------+
+|    101 | Smith | john  |        5000 |
+|    103 | Brown | mike  |        3000 |
+|    106 | White | emma  |        4000 |
++--------+-------+-------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select Emp_id,fname from employee union select Emp_id,fname from loan;
++--------+-------+
+| Emp_id | fname |
++--------+-------+
+|    101 | john  |
+|    102 | jane  |
+|    103 | mike  |
+|    104 | alice |
+|    105 | bob   |
+|    106 | emma  |
++--------+-------+
+6 rows in set (0.01 sec)
+
+mysql> select Emp_id,fname from employee union all select Emp_id,fname from loan;
++--------+-------+
+| Emp_id | fname |
++--------+-------+
+|    101 | john  |
+|    102 | jane  |
+|    103 | mike  |
+|    104 | alice |
+|    105 | bob   |
+|    106 | emma  |
+|    101 | john  |
+|    103 | mike  |
+|    106 | emma  |
++--------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select Emp_id,fname from employee interset select Emp_id,fname from loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from loan' at line 1
+mysql> select Emp_id,fname from employee intersect select Emp_id,fname from loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from loan' at line 1
+mysql> select Emp_id,fname from employee intersect select Emp_id,fname from loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from loan' at line 1
+mysql> select Emp_id,fname from employee except select Emp_id,fname from loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from loan' at line 1
+mysql> select Emp_id,fname from employee except select Emp_id,fname from loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from loan' at line 1
+mysql> select count(*)from employee E join department D on E.dep_id=D.dep_id where D.name='sales';
+ERROR 1054 (42S22): Unknown column 'D.dep_id' in 'on clause'
+mysql> select count(*)from employee E join department D on E.department_id=D.department_id where D.name='sales';
+ERROR 1054 (42S22): Unknown column 'E.department_id' in 'on clause'
+mysql> select count(*)from employee join department on E.department_id=D.department_id where D.name='sales';
+ERROR 1054 (42S22): Unknown column 'D.name' in 'where clause'
+mysql> select count(*)from employee join department on employee.department_id=department.department_id where D.name='sales';
+ERROR 1054 (42S22): Unknown column 'D.name' in 'where clause'
+mysql> select count(*)from employee join department on employee.department_id=department.department_id where department.name='sales';
+ERROR 1054 (42S22): Unknown column 'employee.department_id' in 'on clause'
+mysql> select Emp_id,fname from Employee except select Emp_id,fname from Loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from Loan' at line 1
+mysql> select Emp_id,fname from employee except select Emp_id,fname from Loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from Loan' at line 1
+mysql> select Emp_id,fname from employee except select Emp_id,fname from loan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select Emp_id,fname from loan' at line 1
+mysql> select  count(*) from Employee E join Department D on E.Dep_id=D.Dep_id where D.name='Sales';
+ERROR 1146 (42S02): Table 'company.Employee' doesn't exist
+mysql> select  count(*) from employee E join department D on E.dep_id=D.dep_id where D.name='sales';
+ERROR 1054 (42S22): Unknown column 'D.dep_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on E.dep_id=D.dep_id where D.name='Sales';
+ERROR 1054 (42S22): Unknown column 'D.dep_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on E.department_id=D.department_id where D.name='Sales';
+ERROR 1054 (42S22): Unknown column 'E.department_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on employee.department_id=D.department_id where D.name='Sales';
+ERROR 1054 (42S22): Unknown column 'employee.department_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on employee.department_id=department.department_id where D.name='Sales';
+ERROR 1054 (42S22): Unknown column 'employee.department_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on E.department_id=D.department_id where D.name='Sales';
+ERROR 1054 (42S22): Unknown column 'E.department_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on E.dep_id=D.dep_id where D.name='Sales';
+ERROR 1054 (42S22): Unknown column 'D.dep_id' in 'on clause'
+mysql> select  count(*) from employee E join department D on E.dep_id=D.department_id where D.name='Sales';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select Emp_id,lname,fname from Employee where Dep_id not in (10,30);
+ERROR 1146 (42S02): Table 'company.Employee' doesn't exist
+mysql> select Emp_id,lname,fname from employee where dep_id not in (10,30);
++--------+----------+-------+
+| Emp_id | lname    | fname |
++--------+----------+-------+
+|    103 | Brown    | mike  |
+|    105 | Anderson | bob   |
++--------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select Emp_id,lname,salary from employee order by salary desc;
++--------+----------+--------+
+| Emp_id | lname    | salary |
++--------+----------+--------+
+|    101 | Smith    |  80000 |
+|    104 | Taylor   |  75000 |
+|    106 | White    |  62000 |
+|    102 | Doe      |  60000 |
+|    103 | Brown    |  45000 |
+|    105 | Anderson |  42000 |
++--------+----------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select dep_id,count(*) from employee group by dep_id;
++--------+----------+
+| dep_id | count(*) |
++--------+----------+
+|     10 |        3 |
+|     20 |        1 |
+|     30 |        1 |
+|     40 |        1 |
++--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee where salary=(select max(salary) from employee);
++--------+-------+-------+-------+--------+------------+------------+--------+--------+
+| Emp_id | lname | fname | mname | job_id | manager_id | hiredate   | salary | dep_id |
++--------+-------+-------+-------+--------+------------+------------+--------+--------+
+|    101 | Smith | john  | A     |      1 |       NULL | 1985-06-15 |  80000 |     10 |
++--------+-------+-------+-------+--------+------------+------------+--------+--------+
+1 row in set (0.01 sec)
+
+mysql> update employee set salary=salary*1.10 where job_id=(select job_id from Job where func='Clerk');
+ERROR 1146 (42S02): Table 'company.Job' doesn't exist
+mysql> update employee set salary=salary*1.10 where job_id=(select job_id from Job where funcTION='Clerk');
+ERROR 1146 (42S02): Table 'company.Job' doesn't exist
+mysql> update employee set salary=salary*1.10 where job_id=(select job_id from job where funcTION='Clerk');
+Query OK, 2 rows affected (0.04 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select D.Dep_id,D.name from Department D left join Employee E on D.Dep_id=E.Dep_id where E.Emp_id is NULL;
+ERROR 1146 (42S02): Table 'company.Department' doesn't exist
+mysql> select D.department_id,D.name from department D left join Employee E on D.dep_id=E.dep_id where E.Emp_id is NULL;
+ERROR 1146 (42S02): Table 'company.Employee' doesn't exist
+mysql> select D.department_id,D.name from department D left join employee E on D.dep_id=E.dep_id where E.Emp_id is NULL;
+ERROR 1054 (42S22): Unknown column 'D.dep_id' in 'on clause'
+mysql> select D.department_id,D.name from department D left join employee E on D.department_id=E.dep_id where E.Emp_id is NULL;
+Empty set (0.01 sec)
+
+mysql> select dep_id,max(salary) as max_salary,min(salary) as min_salary,avg(salary) as avg_salary from employee group by dep_id;
++--------+------------+------------+------------+
+| dep_id | max_salary | min_salary | avg_salary |
++--------+------------+------------+------------+
+|     10 |      80000 |      60000 | 67333.3333 |
+|     20 |      49500 |      49500 | 49500.0000 |
+|     30 |      75000 |      75000 | 75000.0000 |
+|     40 |      46200 |      46200 | 46200.0000 |
++--------+------------+------------+------------+
+4 rows in set (0.01 sec)
+
+mysql> select * from employee where year(hiredate)=1985;
++--------+-------+-------+-------+--------+------------+------------+--------+--------+
+| Emp_id | lname | fname | mname | job_id | manager_id | hiredate   | salary | dep_id |
++--------+-------+-------+-------+--------+------------+------------+--------+--------+
+|    101 | Smith | john  | A     |      1 |       NULL | 1985-06-15 |  80000 |     10 |
+|    103 | Brown | mike  | C     |      2 |        102 | 1985-12-01 |  49500 |     20 |
++--------+-------+-------+-------+--------+------------+------------+--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select E.* from employee E join department D on E.dep_id=D.department_id join Location L on D.location_id=L.location_id where L.reg_grp='new York';
+ERROR 1146 (42S02): Table 'company.Location' doesn't exist
+mysql> select E.* from employee E join department D on E.dep_id=D.department_id join location L on D.location_id=L.location_id where L.reg_grp='new York';
++--------+----------+-------+-------+--------+------------+------------+--------+--------+
+| Emp_id | lname    | fname | mname | job_id | manager_id | hiredate   | salary | dep_id |
++--------+----------+-------+-------+--------+------------+------------+--------+--------+
+|    101 | Smith    | john  | A     |      1 |       NULL | 1985-06-15 |  80000 |     10 |
+|    102 | Doe      | jane  | B     |      3 |        101 | 1990-09-20 |  60000 |     10 |
+|    105 | Anderson | bob   | E     |      2 |        103 | 2010-03-17 |  46200 |     40 |
+|    106 | White    | emma  | F     |      3 |        101 | 2015-05-22 |  62000 |     10 |
++--------+----------+-------+-------+--------+------------+------------+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select E.Emp_id,E.lname,E.fname,D.name from employee E join department D on E.dep_id=D.department_id;
++--------+----------+-------+------------+
+| Emp_id | lname    | fname | name       |
++--------+----------+-------+------------+
+|    101 | Smith    | john  | sales      |
+|    102 | Doe      | jane  | sales      |
+|    103 | Brown    | mike  | HR         |
+|    104 | Taylor   | alice | IT         |
+|    105 | Anderson | bob   | accounting |
+|    106 | White    | emma  | sales      |
++--------+----------+-------+------------+
+6 rows in set (0.00 sec)
+
